@@ -9,7 +9,8 @@ public class Destroyer extends Ship {
 		shipName = "Destroyer";
 		shipType = ShipType.DESTROYER;
 		shipLength = DESTROYER_LENGTH;
-	}
+		shipPos = new Position[shipLength];
+}
 
 	public HitResult hitCheck(Position pos) {
 		HitResult result = super.hitCheck(pos);

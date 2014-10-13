@@ -9,6 +9,7 @@ public class Aircraft extends Ship {
 		shipName = "Aircraft";
 		shipType = ShipType.AIRCRAFT;
 		shipLength = AIRCRAFT_LENGTH;
+		shipPos = new Position[shipLength];
 	}
 
 	public HitResult hitCheck(Position pos) {

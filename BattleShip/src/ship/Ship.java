@@ -22,14 +22,7 @@ public class Ship {
 	protected int shipHP;
 	protected int shipLength;
 
-	public Ship() {
-		init();
-	}
-	
 	public void init() {
-		if (shipPos == null)
-			shipPos = new Position[shipLength];
-
 		shipHP = shipLength;
 	}
 
@@ -44,7 +37,7 @@ public class Ship {
 
 	public void addShipPart(Position pos) {
 		for (int i = 0; i < shipLength; i++) {
-			if (shipPos[i].getX() == 0 || shipPos[i].getY() == 0) {
+			if (shipPos[i] == null) {
 				shipPos[i] = pos;
 				break;
 			}

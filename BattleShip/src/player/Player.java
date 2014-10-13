@@ -30,6 +30,8 @@ public class Player {
 		}
 		myMap = new Map();
 		enemyMap = new Map();
+		
+		init();
 	}
 	
 	public void init() {

@@ -9,6 +9,7 @@ public class Cruiser extends Ship {
 		shipName = "Cruiser";
 		shipType = ShipType.CRUISER;
 		shipLength = CRUISER_LENGTH;
+		shipPos = new Position[shipLength];
 	}
 
 	public HitResult hitCheck(Position pos) {

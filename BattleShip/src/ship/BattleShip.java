@@ -9,6 +9,7 @@ public class BattleShip extends Ship {
 		shipName = "BattleShip";
 		shipType = ShipType.BATTLESHIP;
 		shipLength = BATTLESHIP_LENGTH;
+		shipPos = new Position[shipLength];
 	}
 
 	public HitResult hitCheck(Position pos) {
