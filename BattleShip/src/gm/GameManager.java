@@ -5,13 +5,19 @@ import player.*;
 import map.*;
 
 public class GameManager {
+	private enum GameMode {
+		GAME_PLAY, GAME_TEST, 
+	}
+	
 	private Player player1;
 	private Player player2;
 	private int turn = 0;
+	private GameMode mode;
 	
 	public GameManager() {
 		player1 = new Player();
 		player2 = new Player();
+		mode = GameMode.GAME_TEST;
 	}
 	
 	public void initGame() {
@@ -26,7 +32,7 @@ public class GameManager {
 	public void run() {
 		int totalTurn = 0;
 		
-		//maxTrun, minTurn은 gameRestart 동안의 최대 및 최소 Trun수를 의미한다.
+		//maxTrun, minTurn은 gameRestart 동안의 최대 및 최소 Turn 수를 의미한다.
 		//초기화 값은 비교를 위해 기본 설정한 값으로 무의미함
 		int maxTurn = 0; 
 		int minTurn = 64; 
@@ -37,14 +43,21 @@ public class GameManager {
 			initGame();
 			
 			Position attackPos;
-			HitResult result;
+			HitResult hitResult;
 			
+			//player1이 player2를 공격
+			//player2는 공격하지 않음
 			while (!GameEndCondition()) {
 				showGameUI();
-			}
-			
-			if (turn > maxTurn)maxTurn = turn;
-			if (turn < minTurn)minTurn = turn;
+				attackPos = player1.makeAttackPosition();
+				hitResult = player2.attack(attackPos);
+				player1.attackHandler(attackPos, hitResult);
+				turn++;
+			}			
+			totalTurn += turn;
+
+			if (turn > maxTurn) maxTurn = turn;
+			if (turn < minTurn) minTurn = turn;
 			System.out.printf("Game no%d : %d\n", i + 1, turn);
 		}
 		System.out.printf("average : %g max : %d min : %d \n", (double)totalTurn / numOfGameRestart, maxTurn, minTurn);
@@ -61,9 +74,18 @@ public class GameManager {
 	}
 
 	public void showGameUI() {
-//		player2.showAllShipData();
-//		printf("turn:%3d\n", Turn);
-//		player1.printEnemyBoardData();
-//		getchar();
+		if (mode == GameMode.GAME_PLAY) {
+			System.out.println("turn: " + turn);
+			player1.getMyMap().drawMap();
+			player1.getEnemyMap().drawMap();
+			player1.showShipListData();
+		}
+		
+		if (mode == GameMode.GAME_TEST) {
+			System.out.println("turn: " + turn);
+			player1.getEnemyMap().drawMap();
+			player2.getMyMap().drawMap();
+			player2.showShipListData();
+		}
 	}
 }

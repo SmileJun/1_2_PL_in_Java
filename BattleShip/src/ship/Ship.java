@@ -69,6 +69,14 @@ public class Ship {
 		shipPos[hitIdx] = (Position) null;
 	}
 
+	public void showShipData() {
+		System.out.printf("name : %s, MaxHP : %d,", shipName, shipLength);
+			for (int i = 0; i < shipLength; i++) {
+				System.out.printf(" Pos : %c%c", shipPos[i].getX(), shipPos[i].getY());
+			}
+			System.out.println("");
+	}
+	
 	
 	
 	public String getShipName() {

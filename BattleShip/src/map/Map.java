@@ -46,7 +46,7 @@ public class Map {
 	}
 
 	public boolean isValidPlacePosition(Position pos, Direction dir, int shipLength) {
-		if (isPositionWithinBorders(pos)) {
+		if (!isPositionWithinBorders(pos)) {
 			return false;
 		}
 		
@@ -54,10 +54,9 @@ public class Map {
 		int[] dy = { 0 };
 
 		dir.makeDxDyValueWithDir(dx, dy);
+		MapCell currentCell = getCell(pos);
 		
 		for (int i = 0; i < shipLength; i++) {
-			MapCell currentCell = getCell(pos);
-			
 			if(!(currentCell.getState() == CellState.NONE_STATE)) {
 				return false;
 			}
@@ -66,6 +65,7 @@ public class Map {
 			pos.setY((char)(pos.getX() + (char)dy[0]));
 		}
 
+		System.out.println("isValidPlacePos");
 		return true;
 	}
 	public boolean isValidPlacePosition(char x, char y, Direction dir, int shipLength) {
