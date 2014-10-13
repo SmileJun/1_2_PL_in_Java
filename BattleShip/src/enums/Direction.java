@@ -39,19 +39,19 @@ public class Direction {
 	public void makeDxDyValueWithDir(int[] dx, int[] dy) {
 		switch (dir) {
 		case DOWN: 
-			dx[0] = 1;
-			dy[0] = 0;
+			dx[0] = 0;
+			dy[0] = 1;
 			break;
 		case RIGHT:
 			dx[0] = 1;
 			dy[0] = 0;
 			break;
 		case UP:
-			dx[0] = 1;
-			dy[0] = 0;
+			dx[0] = 0;
+			dy[0] = -1;
 			break;
 		case LEFT:
-			dx[0] = 1;
+			dx[0] = -1;
 			dy[0] = 0;
 			break;
 		default:

@@ -45,8 +45,8 @@ public class Map {
 		return isPositionWithinBorders(pos);
 	}
 
-	public boolean isValidPlacePosition(Position pos, Direction dir, int shipLength) {
-		if (!isPositionWithinBorders(pos)) {
+	private boolean isValidPlacePosition(Position pos, Direction dir, int shipLength) {
+		if (!isPositionWithinBorders(pos.getX(), pos.getY())) {
 			return false;
 		}
 		
@@ -54,18 +54,26 @@ public class Map {
 		int[] dy = { 0 };
 
 		dir.makeDxDyValueWithDir(dx, dy);
-		MapCell currentCell = getCell(pos);
+		
+		// 참조로 인한 문제 때문에 Position객체를 하나 복사하여 사용한다.
+		Position tempPos = new Position(pos);
 		
 		for (int i = 0; i < shipLength; i++) {
+			if(tempPos.getX() < Map.START_COL || tempPos.getX() > Map.END_COL)
+				return false;
+			
+			if(tempPos.getY() < Map.START_ROW || tempPos.getY() > Map.END_ROW)
+				return false;
+			
+			MapCell currentCell = getCell(pos);
 			if(!(currentCell.getState() == CellState.NONE_STATE)) {
 				return false;
 			}
 			
-			pos.setX((char)(pos.getX() + (char)dx[0]));
-			pos.setY((char)(pos.getX() + (char)dy[0]));
+			tempPos.setX((char)(tempPos.getX() + (char)dx[0]));
+			tempPos.setY((char)(tempPos.getY() + (char)dy[0]));
 		}
 
-		System.out.println("isValidPlacePos");
 		return true;
 	}
 	public boolean isValidPlacePosition(char x, char y, Direction dir, int shipLength) {
@@ -93,7 +101,7 @@ public class Map {
 	
 	public MapCell getCell(Position pos) {
 		if (!isPositionWithinBorders(pos)) {
-			return (MapCell) null;
+			return (MapCell)null;
 		}
 		return cell[pos.getX() - START_COL][pos.getY() - START_ROW];
 	}

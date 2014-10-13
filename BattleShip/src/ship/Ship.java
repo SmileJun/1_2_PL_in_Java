@@ -16,13 +16,15 @@ public class Ship {
 	public final static int DESTROYER_NUM = 2;
 	public final static int SHIP_NUM = AIRCRAFT_NUM + BATTLESHIP_NUM + CRUISER_NUM + DESTROYER_NUM ;
 	
-	
 	protected String shipName;
 	protected Position[] shipPos;
 	protected ShipType shipType;
 	protected int shipHP;
 	protected int shipLength;
 
+	public Ship() {
+		init();
+	}
 	
 	public void init() {
 		if (shipPos == null)
@@ -48,7 +50,12 @@ public class Ship {
 			}
 		}
 	}
-
+	
+	public void addShipPart(char x, char y) {
+		Position pos = new Position(x,y);
+		addShipPart(pos);
+	}
+	
 	public HitResult hitCheck(Position pos) {
 		int hitIdx = getShipIdx(pos);
 
@@ -98,5 +105,6 @@ public class Ship {
 	public int getShipLength() {
 		return shipLength;
 	}
+
 
 }

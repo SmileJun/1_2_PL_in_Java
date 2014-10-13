@@ -43,19 +43,17 @@ public class Player {
 	}
 	
 	public void placeShips() {
-		Position randomPos = new Position();
-		Direction randomDir = new Direction();
+		Position randomPos;
+		Direction randomDir;
 		int[] dx = { 0 };
 		int[] dy = { 0 };
 		
 		for (Iterator<Ship> iterator = shipList.iterator(); iterator.hasNext();) {
 			Ship ship = iterator.next();
-			System.out.println("it OK");
 			do {
-				System.out.println("do OK");
-				makeRandomPos(randomPos);
-				makeRandomDir(randomDir);
-			} while (!myMap.isValidPlacePosition(randomPos, randomDir, ship.getShipLength()));
+				randomPos = makeRandomPos();
+				randomDir = makeRandomDir();
+			} while (!myMap.isValidPlacePosition(randomPos.getX(), randomPos.getY(), randomDir, ship.getShipLength()));
 			
 			randomDir.makeDxDyValueWithDir(dx, dy);
 			
@@ -63,7 +61,7 @@ public class Player {
 				MapCell currentCell = myMap.getCell(randomPos);
 				currentCell.setState(CellState.SHIP_STATE);
 				
-				ship.addShipPart(randomPos);
+				ship.addShipPart(randomPos.getX(), randomPos.getY());
 				
 				randomPos.setX((char)(randomPos.getX() + dx[0]));
 				randomPos.setY((char)(randomPos.getY() + dy[0]));				
@@ -71,21 +69,26 @@ public class Player {
 		}
 	}
 	
-	public void makeRandomPos(Position randomPos) {
-		char randX = (char) (Map.START_COL + (char)((int)Math.random()*Map.COL_SIZE));
-		char randY = (char) (Map.START_ROW + (char)((int)Math.random()*Map.ROW_SIZE));
+	public Position makeRandomPos() {
+		Position randomPos = new Position();
+		char randX = (char) (Map.START_COL + (char)((int)(Math.random()*Map.COL_SIZE)));
+		char randY = (char) (Map.START_ROW + (char)((int)(Math.random()*Map.ROW_SIZE)));
 		randomPos.setX(randX);
 		randomPos.setY(randY);
+		
+		return randomPos;
 	}
 	
-	public void makeRandomDir(Direction dir) {
-		dir.setDir((int)Math.random()*Direction.DIRECTION_NUM);
+	public Direction makeRandomDir() {
+		Direction randomDir = new Direction();
+		randomDir.setDir((int)(Math.random()*Direction.DIRECTION_NUM));
+		return randomDir;
 	}
 
 	public Position makeAttackPosition() {
-		Position attackPos = new Position();
+		Position attackPos;
 		do {
-			makeRandomPos(attackPos);
+			attackPos = makeRandomPos();
 		} while(!enemyMap.isValidAttackPos(attackPos));
 		
 		return attackPos;
@@ -104,7 +107,7 @@ public class Player {
 			result = ship.hitCheck(pos);
 			
 			if (result != HitResult.MISS) {
-				return result;			
+				return result;
 			}
 		}
 		return HitResult.MISS;

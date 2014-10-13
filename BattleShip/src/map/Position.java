@@ -5,7 +5,6 @@ public class Position {
 	protected char x;
 	protected char y;
 	
-	
 	//constructor
 	public Position() {
 		this((char)0, (char)0);
@@ -16,6 +15,10 @@ public class Position {
 		this.y = y;
 	}
 	
+	public Position(Position src) {
+		this.x = src.x;
+		this.y = src.y;
+	}
 	
 	//method
 	public boolean hasValidPosition() {
